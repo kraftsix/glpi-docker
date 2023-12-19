@@ -1,10 +1,12 @@
-version: '3.8'
-name: 'kraftsix-glpi'
+version: '1.1'
+name: 'kraftsix-glpi-v2'
 
 services:
   mariadb:
     image: mariadb
     restart: always
+    networks:
+      - gnetwork
     ports:
       - "${MARIADB_PORT}:3306"
     environment:
@@ -17,14 +19,25 @@ services:
     env_file:
       - .env
 
-  glpi:
+  server:
     image: kraftsix/glpi:${KRAFTSIX_GLPI_TAG}
     restart: always
+    networks:
+      - gnetwork
     ports:
       - "${GLPI_PORT}:8888"
     depends_on:
       - mariadb
+    volumes:
+      - ${GLPI_STORAGE}:/var/www/html/glpi
     env_file:
       - .env
     environment:
       TZ: ${TZDATA_TIMEZONE:-Asia/Kolkata}
+
+networks:
+  gnetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"

@@ -1,3 +1,21 @@
+#!/bin/bash
+
+cat << EOF
+██╗░░██╗██████╗░░█████╗░███████╗████████╗░██████╗██╗██╗░░██╗
+██║░██╔╝██╔══██╗██╔══██╗██╔════╝╚══██╔══╝██╔════╝██║╚██╗██╔╝
+█████═╝░██████╔╝███████║█████╗░░░░░██║░░░╚█████╗░██║░╚███╔╝░
+██╔═██╗░██╔══██╗██╔══██║██╔══╝░░░░░██║░░░░╚═══██╗██║░██╔██╗░
+██║░╚██╗██║░░██║██║░░██║██║░░░░░░░░██║░░░██████╔╝██║██╔╝╚██╗
+╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░░░░╚═╝░░░╚═════╝░╚═╝╚═╝░░╚═╝
+EOF
+
+# do not continue if version tag is not provided
+
+if [ -z "$1" ]
+  then
+    echo "::::VERSION IS REQUIRED:::"
+    exit 1
+fi
 
 dockerfile="Dockerfile"
 
@@ -6,20 +24,22 @@ VERSION_TAG=$1
 
 IMAGE_NAME="kraftsix/glpi"
 
-REPOSITORY="$IMAGENAME:$TAG"
-REPOSITORY_VERSION="$IMAGENAME:$VERSION_TAG"
+REPOSITORY="$IMAGE_NAME:$TAG"
+REPOSITORY_VERSION="$IMAGE_NAME:$VERSION_TAG"
 
+# build the docker image
 docker build --no-cache -t $REPOSITORY -f $dockerfile .
-docker login
-docker push $REPOSITORY
+docker build --no-cache -t $REPOSITORY_VERSION -f $dockerfile .
 
-if [ -z "$1" ]
-  then
-    echo "No VERSION_TAG supplied"
-    docker logout
-    exit
+
+if [ "$2" == "upload" ]
+    then
+    echo "::::BUILD COMPLETE PUSHING TO REPOSITORY:::"
+    docker login
+    docker push $REPOSITORY
+    docker push $REPOSITORY_VERSION
+    echo "::::DOCKER PUSH COMPLETE EXITING:::"
 fi
 
-docker build --no-cache -t $REPOSITORY_VERSION .
-docker push $REPOSITORY_VERSION
-docker logout
+
+echo "::::BUILD COMPLETE::::"
