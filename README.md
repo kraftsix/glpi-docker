@@ -12,6 +12,16 @@ If you intend to build use the script as shown.
 
 You can also use *string* for the version `build-publish.sh version-12`. Modify the image name in the script as you intend.
 
+Use additional `upload` argument to publish your image to docker hub.
+
+```bash
+./build-publish.sh v1.2 upload
+```
+Above command will prompt for your docker hub credentials, when correct credentials are provided, Image will be pushed to docker hub.
+
+## Docker Repository
+You can view information about this image on [Docker Hub](https://hub.docker.com/r/kraftsix/glpi).
+
 ## Setting up GLPI
 
 Use the *.env* file to customize according to your requirements and use `docker compose` to start the containers.
