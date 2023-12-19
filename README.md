@@ -1,6 +1,6 @@
 # GLPI-docker
 
-This project is dockerization of the of the (GLPI)[https://glpi-project.org/] project.
+This project is dockerization of the of the [GLPI](https://glpi-project.org/) project.
 
 ## Image building
 
