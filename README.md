@@ -19,6 +19,7 @@ Use the *.env* file to customize according to your requirements and use `docker 
 - Use command `docker compose -f docker-compose.yml up -d`
 - To view, what's happening in container use `docker compose -f docker-compose.yml logs` append `-f` to follow the logs.
 - To stop the containers use `docker compose -f docker-compose.yml down`
+- To inspect the containers in the network use `kraftsix-glpi_gnetwork`
 
 Once all the containers are up and running use `http://localhost:8888` to access the portal. Follow the instructions to proceed
 
@@ -34,4 +35,4 @@ Database: Either select the existing db or create new one
 
 ## Contribution
 You are welcome to contribute to this repository, contributions are much appreciated.
-***Contributors required***
+- ***Contributors required***
