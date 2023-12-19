@@ -1,0 +1,30 @@
+version: '3.8'
+name: 'kraftsix-glpi'
+
+services:
+  mariadb:
+    image: mariadb
+    restart: always
+    ports:
+      - "${MARIADB_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIADB_PASSWORD}
+      MYSQL_DATABASE: ${MARIADB_NAME}
+      MYSQL_USER: ${MARIADB_USER}
+      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - ${MARIADB_FILES}:/var/lib/mysql
+    env_file:
+      - .env
+
+  glpi:
+    image: kraftsix/glpi:${KRAFTSIX_GLPI_TAG}
+    restart: always
+    ports:
+      - "${GLPI_PORT}:8888"
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    environment:
+      TZ: ${TZDATA_TIMEZONE:-Asia/Kolkata}
